@@ -1,0 +1,174 @@
+/* === ОСНОВНЫЕ ПЕРЕМЕННЫЕ === */
+:root {
+  --primary: #4a7c59;
+  --primary-hover: #3b5e47;
+  --bg: #f5f2eb;
+  --card-bg: #ffffff;
+  --text: #333333;
+  --text-light: #666666;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --radius: 14px;
+}
+
+/* === СБРОС И БАЗА === */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, #e8f0e3 0%, #f5f2eb 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  padding: 16px;
+}
+
+/* === КАРТОЧКА-КОНТЕЙНЕР === */
+.container {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 32px 28px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+}
+
+h2 {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 28px;
+  letter-spacing: -0.3px;
+}
+
+/* === КНОПКИ ДЕЙСТВИЙ === */
+.btn {
+  display: block;
+  width: 100%;
+  background: var(--primary);
+  color: #ffffff;
+  border: none;
+  padding: 15px 20px;
+  margin-bottom: 14px;
+  border-radius: var(--radius);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+  text-decoration: none;
+  line-height: 1.4;
+}
+
+.btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* === АДМИН-КНОПКА === */
+.admin {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+.admin button {
+  background: var(--primary);
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  font-size: 26px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.25s, transform 0.2s;
+}
+
+.admin button:hover {
+  background: var(--primary-hover);
+  transform: scale(1.08);
+}
+
+/* === ПАНЕЛЬ СТАТИСТИКИ === */
+.admin-panel {
+  display: none;
+  position: fixed;
+  bottom: 84px;
+  right: 20px;
+  background: #ffffff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px 22px;
+  min-width: 230px;
+  z-index: 9;
+  text-align: left;
+  font-size: 14px;
+}
+
+.admin-panel h3 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  color: var(--primary);
+}
+
+#stats {
+  margin-bottom: 16px;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+#stats span {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* === ГРАФИК === */
+canvas#chart {
+  max-width: 100%;
+  height: auto !important;
+  border-radius: 8px;
+}
+
+/* === АДАПТИВНОСТЬ === */
+@media (max-width: 480px) {
+  .container {
+    padding: 24px 18px;
+  }
+
+  h2 {
+    font-size: 22px;
+    margin-bottom: 22px;
+  }
+
+  .btn {
+    padding: 13px 16px;
+    font-size: 15px;
+  }
+
+  .admin button {
+    width: 46px;
+    height: 46px;
+    font-size: 22px;
+  }
+
+  .admin-panel {
+    right: 10px;
+    bottom: 74px;
+    min-width: 200px;
+  }
+}
