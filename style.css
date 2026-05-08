@@ -64,8 +64,23 @@ body {
 .button-group {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 20px;
   align-items: center;
+}
+
+/* Разделитель между кнопками */
+.button-group .menu-button:not(:last-child) {
+  position: relative;
+}
+
+.button-group .menu-button:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 10%;
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c0d4c0, #c0d4c0, transparent);
 }
 
 /* Единый стиль для всех кнопок */
@@ -86,6 +101,13 @@ body {
   box-shadow: 0 4px 10px rgba(74, 124, 89, 0.2);
   width: 100%;
   max-width: 280px;
+  text-align: center;
+}
+
+/* Специально для последней кнопки — гарантируем центрирование текста */
+.button-group .menu-button:last-child {
+  text-align: center;
+  justify-content: center;
 }
 
 .menu-button:hover {
@@ -97,33 +119,6 @@ body {
 /* Кнопка установки скрыта по умолчанию */
 #install-banner {
   display: none;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-/* Разделитель между кнопками */
-.button-group {
-  gap: 0;
-  position: relative;
-}
-
-.button-group > * {
-  margin-bottom: 0;
-}
-
-.button-group > * + * {
-  margin-top: 12px;
-}
-
-.button-group > * + *::before {
-  content: '';
-  display: block;
-  width: 80%;
-  height: 2px;
-  background: rgba(74, 124, 89, 0.35);
-  margin: 0 auto 12px;
-  border-radius: 2px;
 }
 
 /* Адаптация для маленьких экранов */
