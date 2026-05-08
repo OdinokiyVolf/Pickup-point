@@ -48,7 +48,7 @@
     </div>
   </div>
 
-  <!-- Модальное окно с инструкцией для iOS — выезжает снизу -->
+  <!-- Модальное окно с инструкцией для iOS — центрировано по содержимому -->
   <div id="ios-modal-overlay">
     <div id="ios-hint">
       <button id="ios-hint-close" aria-label="Закрыть">✕</button>
@@ -81,14 +81,17 @@
     }
 
     // Закрытие модального окна
-    document.getElementById('ios-hint-close').onclick = () => {
-      document.getElementById('ios-modal-overlay').classList.remove('visible');
+    const closeBtn = document.getElementById('ios-hint-close');
+    const overlay = document.getElementById('ios-modal-overlay');
+    
+    closeBtn.onclick = () => {
+      overlay.classList.remove('visible');
     };
 
     // Закрытие при клике на затемнение фона
-    document.getElementById('ios-modal-overlay').onclick = (e) => {
-      if (e.target === document.getElementById('ios-modal-overlay')) {
-        document.getElementById('ios-modal-overlay').classList.remove('visible');
+    overlay.onclick = (e) => {
+      if (e.target === overlay) {
+        overlay.classList.remove('visible');
       }
     };
 
@@ -99,7 +102,7 @@
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      installBtn.style.display = 'flex';  // показываем кнопку установки
+      installBtn.style.display = 'flex';
     });
 
     installBtn.onclick = async () => {
