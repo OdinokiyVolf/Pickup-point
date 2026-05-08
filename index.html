@@ -7,76 +7,19 @@
   <meta name="description" content="Пункт выдачи заказов на Тищенко, 2. Озон, Wildberries.">
 
   <link rel="stylesheet" href="style.css">
+
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="logo.png" type="image/png">
 
-  <!-- Apple / iOS: без этих тегов Safari не предложит «Добавить на экран» -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="ПВЗ Тищенко">
   <link rel="apple-touch-icon" href="logo.png">
 
-  <!-- Windows / Edge -->
   <meta name="msapplication-TileImage" content="logo.png">
   <meta name="msapplication-TileColor" content="#4a7c59">
-
   <meta name="theme-color" content="#4a7c59">
 
-  <style>
-    /* Кнопка установки PWA — скрыта по умолчанию */
-    #install-banner {
-      display: none;
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      background: #4a7c59;
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      padding: 14px 28px;
-      font-size: 16px;
-      font-family: inherit;
-      cursor: pointer;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-      white-space: nowrap;
-      animation: slideUp 0.3s ease;
-    }
-    #install-banner.visible { display: flex; align-items: center; gap: 10px; }
-
-    /* Инструкция для iOS Safari — скрыта по умолчанию */
-    #ios-hint {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0; right: 0;
-      z-index: 1000;
-      background: #fff;
-      border-top: 2px solid #4a7c59;
-      padding: 18px 20px 28px;
-      font-size: 15px;
-      line-height: 1.5;
-      text-align: center;
-      box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-    }
-    #ios-hint.visible { display: block; }
-    #ios-hint strong { color: #4a7c59; }
-    #ios-hint-close {
-      position: absolute;
-      top: 10px; right: 16px;
-      background: none; border: none;
-      font-size: 22px; cursor: pointer; color: #666;
-    }
-    #ios-hint .arrow { font-size: 26px; }
-
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
-    }
-  </style>
-
-  <!-- Яндекс.Метрика -->
   <script>
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
     m[i].l=1*new Date();
@@ -85,7 +28,6 @@
     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
     ym(109024144, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
   </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/109024144" style="position:absolute;left:-9999px;" alt=""></div></noscript>
 </head>
 <body>
 
@@ -97,18 +39,16 @@
 
       <div class="button-group">
         <a href="https://ozon.ru/point/1402634" target="_blank" rel="noopener noreferrer" class="menu-button">Адрес пункта Озон</a>
-        <a href="https://dzen.ru/a/aeh5mmCZ_2Jl9kNS?share_to=link" target="_blank" rel="noopener noreferrer" class="menu-button">Как заказывать товары с WB?</a>
+        <a href="https://dzen.ru/a/aeh5mmCZ_2Jl9kNS?share_to=link" target="_blank" rel="noopener noreferrer" class="menu-button">Как заказать товары с WB?</a>
         <a href="https://dzen.ru/a/aei7_9gcLjiKbk3D?share_to=link" target="_blank" rel="noopener noreferrer" class="menu-button">Как оформить возврат товаров?</a>
       </div>
     </div>
   </div>
 
-  <!-- Кнопка установки для Chrome / Edge / Android -->
   <button id="install-banner" aria-label="Установить приложение">
     <span>📲</span> Установить на экран
   </button>
 
-  <!-- Подсказка для iOS Safari -->
   <div id="ios-hint" role="dialog" aria-label="Инструкция по установке">
     <button id="ios-hint-close" aria-label="Закрыть">✕</button>
     <p>Чтобы установить приложение на iPhone&nbsp;/ iPad:</p>
@@ -118,53 +58,35 @@
   </div>
 
   <script>
-    // ── Service Worker ──────────────────────────────────────────────
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js')
-        .then(() => console.log('PWA: Service Worker готов'))
-        .catch(err => console.error('PWA: Ошибка SW:', err));
+      navigator.serviceWorker.register('sw.js').catch(err => console.error(err));
     }
 
-    // ── Определяем iOS Safari ───────────────────────────────────────
     const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches
-                            || window.navigator.standalone === true;
+    const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
     if (isIos && !isInStandaloneMode) {
-      // Показываем подсказку через 2 секунды, чтобы не раздражать сразу
-      setTimeout(() => {
-        document.getElementById('ios-hint').classList.add('visible');
-      }, 2000);
+      setTimeout(() => { document.getElementById('ios-hint').classList.add('visible'); }, 2000);
     }
 
     document.getElementById('ios-hint-close').addEventListener('click', () => {
       document.getElementById('ios-hint').classList.remove('visible');
     });
 
-    // ── beforeinstallprompt — Chrome / Edge / Android ───────────────
     let deferredPrompt = null;
     const installBtn = document.getElementById('install-banner');
 
     window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();          // отменяем автоматический баннер
+      e.preventDefault();
       deferredPrompt = e;
-      installBtn.classList.add('visible');  // показываем нашу кнопку
+      installBtn.classList.add('visible');
     });
 
     installBtn.addEventListener('click', async () => {
       if (!deferredPrompt) return;
       deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      console.log('PWA install:', outcome);
       deferredPrompt = null;
       installBtn.classList.remove('visible');
-    });
-
-    // Скрываем кнопку, если приложение уже установлено
-    window.addEventListener('appinstalled', () => {
-      installBtn.classList.remove('visible');
-      deferredPrompt = null;
-      console.log('PWA: установлено');
     });
   </script>
 </body>
