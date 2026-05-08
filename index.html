@@ -7,7 +7,7 @@
   <meta name="description" content="Пункт выдачи заказов на Тищенко, 2. Озон, Wildberries.">
 
   <link rel="stylesheet" href="style.css">
-
+  
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="logo.png" type="image/png">
 
@@ -15,10 +15,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="ПВЗ Тищенко">
   <link rel="apple-touch-icon" href="logo.png">
-
-  <meta name="msapplication-TileImage" content="logo.png">
-  <meta name="msapplication-TileColor" content="#4a7c59">
-  <meta name="theme-color" content="#4a7c59">
 
   <script>
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -39,53 +35,65 @@
 
       <div class="button-group">
         <a href="https://ozon.ru/point/1402634" target="_blank" rel="noopener noreferrer" class="menu-button">Адрес пункта Озон</a>
-        <a href="https://dzen.ru/a/aeh5mmCZ_2Jl9kNS?share_to=link" target="_blank" rel="noopener noreferrer" class="menu-button">Как заказать товары с WB?</a>
-        <a href="https://dzen.ru/a/aei7_9gcLjiKbk3D?share_to=link" target="_blank" rel="noopener noreferrer" class="menu-button">Как оформить возврат товаров?</a>
-      </div>
+        <a href="https://dzen.ru/a/aeh5mmCZ_2Jl9kNS?share_to=link" target="_blank" rel="noopener noreferrer" class="menu-button">Как заказать на WB</a>
+        <a href="https://dzen.ru/a/aei7_9gcLjiKbk3D?share_to=link" target="_blank" rel="noopener noreferrer" class="menu-button">Оформить возврат</a>
 
-      <button id="install-banner" aria-label="Установить приложение">
-    <span>📲</span> Установить на экран
-  </button>
+        <button id="install-banner" class="menu-button" aria-label="Установить приложение">
+          📲 Установить на экран
+        </button>
+      </div>
     </div>
-  <div id="ios-hint" role="dialog" aria-label="Инструкция по установке">
-    <button id="ios-hint-close" aria-label="Закрыть">✕</button>
-    <p>Чтобы установить приложение на iPhone&nbsp;/ iPad:</p>
-    <p class="arrow">⬆️</p>
-    <p>Нажмите <strong>«Поделиться»</strong> в Safari,<br>
-    затем выберите <strong>«На экран "Домой"»</strong></p>
+  </div>
+
+  <div id="ios-modal-overlay">
+    <div id="ios-hint">
+      <button id="ios-hint-close">✕</button>
+      <h3>Установка на iPhone</h3>
+      <p>Чтобы сохранить этот сайт как приложение:</p>
+      <div class="ios-steps">
+        <p>1. Нажмите иконку <strong>«Поделиться»</strong> <span class="icon">⎋</span></p>
+        <p>2. Прокрутите вниз и выберите <strong>«На экран "Домой"»</strong> <span class="icon">⊞</span></p>
+      </div>
+      <div class="arrow-down">↓</div>
+    </div>
   </div>
 
   <script>
+    // Service Worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(err => console.error(err));
+      navigator.serviceWorker.register('sw.js').catch(console.error);
     }
 
+    // Логика для iOS
     const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    const isInStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
-    if (isIos && !isInStandaloneMode) {
-      setTimeout(() => { document.getElementById('ios-hint').classList.add('visible'); }, 2000);
+    if (isIos && !isInStandalone) {
+      setTimeout(() => {
+        document.getElementById('ios-modal-overlay').classList.add('visible');
+      }, 2000);
     }
 
-    document.getElementById('ios-hint-close').addEventListener('click', () => {
-      document.getElementById('ios-hint').classList.remove('visible');
-    });
+    document.getElementById('ios-hint-close').onclick = () => {
+      document.getElementById('ios-modal-overlay').classList.remove('visible');
+    };
 
-    let deferredPrompt = null;
+    // Логика для Android (Chrome)
+    let deferredPrompt;
     const installBtn = document.getElementById('install-banner');
 
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      installBtn.classList.add('visible');
+      installBtn.style.display = 'flex'; // Показываем, если поддерживается
     });
 
-    installBtn.addEventListener('click', async () => {
+    installBtn.onclick = async () => {
       if (!deferredPrompt) return;
       deferredPrompt.prompt();
       deferredPrompt = null;
-      installBtn.classList.remove('visible');
-    });
+      installBtn.style.display = 'none';
+    };
   </script>
 </body>
 </html>
