@@ -4,20 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ПВЗ на Тищенко, 2</title>
-  <meta name="description" content="Пункт выдачи заказов на Тищенко, 2. Озон, Wildberries.">
-
+  
   <link rel="stylesheet" href="style.css">
+  
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="logo.png" type="image/png">
-
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="ПВЗ Тищенко">
-  <link rel="apple-touch-icon" href="logo.png">
-
-  <meta name="msapplication-TileImage" content="logo.png">
-  <meta name="msapplication-TileColor" content="#4a7c59">
-  <meta name="theme-color" content="#4a7c59">
+  <link rel="icon" href="logo.png">
 
   <script>
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -27,80 +18,40 @@
     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
     ym(109024144, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
   </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/109024144" style="position:absolute;left:-9999px;" alt=""></div></noscript>
 </head>
 <body>
 
   <main class="main-container">
     <div class="content-wrapper">
-      <img src="logo.png" alt="Логотип ПВЗ" class="avatar">
-      
+      <img src="logo.png" alt="Логотип" class="avatar">
       <h1 class="title">ПВЗ на Тищенко, 2</h1>
       <p class="subtitle">"Для лучшего качества скриншотов открывайте инструкции через компьютер"</p>
 
       <nav class="button-group">
-        <a href="https://ozon.ru/point/1402634" target="_blank" rel="noopener noreferrer" class="menu-button">
-          Адрес пункта на Озон
-        </a>
-        <a href="https://dzen.ru/a/aeh5mmCZ_2Jl9kNS?share_to=link" target="_blank" rel="noopener noreferrer" class="menu-button">
-          Как заказать товары из Вайлдберриз?
-        </a>
-        <a href="https://dzen.ru/a/aei7_9gcLjiKbk3D?share_to=link" target="_blank" rel="noopener noreferrer" class="menu-button">
-          Как оформить возврат товаров?
-        </a>
+        <a href="https://ozon.ru/point/1402634" target="_blank" class="menu-button">Адрес пункта на Озон</a>
+        <a href="https://dzen.ru/a/aeh5mmCZ_2Jl9kNS" target="_blank" class="menu-button">Как заказать товары из Вайлдберриз?</a>
+        <a href="https://dzen.ru/a/aei7_9gcLjiKbk3D" target="_blank" class="menu-button">Как оформить возврат товаров?</a>
       </nav>
     </div>
   </main>
 
-  <button id="install-banner" aria-label="Установить приложение">
-    <span>📲</span> Установить на экран
-  </button>
-
-  <div id="ios-hint" role="dialog">
-    <button id="ios-hint-close" aria-label="Закрыть">✕</button>
-    <p>Чтобы установить приложение на iPhone:</p>
-    <div class="ios-arrow">⬆️</div>
-    <p>Нажмите <strong>«Поделиться»</strong> в Safari,<br> затем <strong>«На экран "Домой"»</strong></p>
-  </div>
+  <button id="install-banner">📲 Установить на экран</button>
 
   <script>
-    // ── Service Worker ──
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js')
-        .then(() => console.log('PWA: Ready'))
-        .catch(err => console.error('PWA: Error', err));
-    }
-
-    // ── Логика установки (iOS) ──
-    const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-
-    if (isIos && !isInStandaloneMode) {
-      setTimeout(() => {
-        document.getElementById('ios-hint').classList.add('visible');
-      }, 2000);
-    }
-
-    document.getElementById('ios-hint-close').onclick = () => {
-      document.getElementById('ios-hint').classList.remove('visible');
-    };
-
-    // ── Логика установки (Android/Chrome) ──
+    // Логика кнопки установки
     let deferredPrompt;
-    const installBtn = document.getElementById('install-banner');
-
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      installBtn.classList.add('visible');
+      document.getElementById('install-banner').classList.add('visible');
     });
 
-    installBtn.onclick = async () => {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      deferredPrompt = null;
-      installBtn.classList.remove('visible');
+    document.getElementById('install-banner').onclick = async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt = null;
+        document.getElementById('install-banner').classList.remove('visible');
+      }
     };
   </script>
 </body>
