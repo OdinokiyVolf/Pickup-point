@@ -1,0 +1,103 @@
+/* Переменные для удобной настройки цветов */
+:root {
+  --primary: #4a7c59;          /* Темно-зеленый (со скриншота) */
+  --primary-hover: #3d664a;    /* Цвет при наведении */
+  --bg-color: #e9ede4;         /* Фоновый цвет страницы */
+  --card-bg: #ffffff;          /* Цвет карточки */
+  --text-main: #4a7c59;        /* Цвет заголовка */
+  --text-muted: #666666;       /* Цвет подзаголовка */
+}
+
+/* Обнуление отступов и базовая настройка шрифта */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Контейнер для ограничения ширины на ПК */
+.main-container {
+  width: 100%;
+  max-width: 450px;
+}
+
+/* Стили основной карточки */
+.card {
+  background: var(--card-bg);
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Логотип ПВЗ */
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  object-fit: contain;
+  background-color: white;
+}
+
+/* Заголовок */
+.title {
+  color: var(--text-main);
+  font-size: 24px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+/* Подзаголовок о качестве скриншотов */
+.subtitle {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 30px;
+  max-width: 290px;
+}
+
+/* Группа кнопок-ссылок */
+.button-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Стилизация ссылок под кнопки */
+.menu-button {
+  background-color: var(--primary);
+  color: white;
+  text-decoration: none; /* Убираем подчеркивание */
+  display: block;
+  padding: 15px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.1s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Эффекты при наведении и нажатии */
+.menu-button:hover {
+  background-color: var(--primary-hover);
+}
+
+.menu-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
