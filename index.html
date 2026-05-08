@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -16,6 +17,7 @@
   <meta name="apple-mobile-web-app-title" content="ПВЗ Тищенко">
   <link rel="apple-touch-icon" href="logo.png">
 
+  <!-- Яндекс.Метрика -->
   <script>
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
     m[i].l=1*new Date();
@@ -24,6 +26,7 @@
     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
     ym(109024144, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
   </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/109024144" style="position:absolute;left:-9999px;" alt=""></div></noscript>
 </head>
 <body>
 
@@ -34,9 +37,9 @@
       <p class="subtitle">Для лучшего качества скриншотов открывайте инструкции через компьютер</p>
 
       <div class="button-group">
-        <a href="https://ozon.ru/point/1402634" target="_blank" rel="noopener noreferrer" class="menu-button">Адрес пункта Озон</a>
-        <a href="https://dzen.ru/a/aeh5mmCZ_2Jl9kNS?share_to=link" target="_blank" rel="noopener noreferrer" class="menu-button">Как заказать товары с WB?</a>
-        <a href="https://dzen.ru/a/aei7_9gcLjiKbk3D?share_to=link" target="_blank" rel="noopener noreferrer" class="menu-button">Как оформить возврат товаров?</a>
+        <a href="https://ozon.ru/point/1402634" target="_blank" rel="noopener noreferrer" class="menu-button">📍 Адрес пункта Озон</a>
+        <a href="https://dzen.ru/a/aeh5mmCZ_2Jl9kNS?share_to=link" target="_blank" rel="noopener noreferrer" class="menu-button">📦 Как заказать товары с WB?</a>
+        <a href="https://dzen.ru/a/aei7_9gcLjiKbk3D?share_to=link" target="_blank" rel="noopener noreferrer" class="menu-button">🔄 Как оформить возврат товаров?</a>
 
         <button id="install-banner" class="menu-button" aria-label="Установить приложение">
           📲 Установить на экран
@@ -45,26 +48,29 @@
     </div>
   </div>
 
+  <!-- Модальное окно с инструкцией для iOS — выезжает снизу -->
   <div id="ios-modal-overlay">
     <div id="ios-hint">
-      <button id="ios-hint-close">✕</button>
-      <h3>Установка на iPhone</h3>
+      <button id="ios-hint-close" aria-label="Закрыть">✕</button>
+      <h3>📱 Установка на iPhone / iPad</h3>
       <p>Чтобы сохранить этот сайт как приложение:</p>
       <div class="ios-steps">
-        <p>1. Нажмите иконку <strong>«Поделиться»</strong> <span class="icon">⎋</span></p>
-        <p>2. Прокрутите вниз и выберите <strong>«На экран "Домой"»</strong> <span class="icon">⊞</span></p>
+        <p>1️⃣ Нажмите иконку <strong>«Поделиться»</strong> <span class="icon">⎔</span></p>
+        <p>2️⃣ Прокрутите вниз и выберите <strong>«На экран "Домой"»</strong> <span class="icon">⬚</span></p>
       </div>
-      <div class="arrow-down">↓</div>
+      <div class="arrow-down">⬆️</div>
     </div>
   </div>
 
   <script>
     // Service Worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(console.error);
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log('✅ SW зарегистрирован'))
+        .catch(err => console.error('❌ Ошибка SW:', err));
     }
 
-    // Логика для iOS
+    // ========== Логика для iOS: показываем модальное окно снизу ==========
     const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
     const isInStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
@@ -74,26 +80,43 @@
       }, 2000);
     }
 
+    // Закрытие модального окна
     document.getElementById('ios-hint-close').onclick = () => {
       document.getElementById('ios-modal-overlay').classList.remove('visible');
     };
 
-    // Логика для Android (Chrome)
+    // Закрытие при клике на затемнение фона
+    document.getElementById('ios-modal-overlay').onclick = (e) => {
+      if (e.target === document.getElementById('ios-modal-overlay')) {
+        document.getElementById('ios-modal-overlay').classList.remove('visible');
+      }
+    };
+
+    // ========== Логика для Android (Chrome / Edge) ==========
     let deferredPrompt;
     const installBtn = document.getElementById('install-banner');
 
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      installBtn.style.display = 'flex'; // Показываем, если поддерживается
+      installBtn.style.display = 'flex';  // показываем кнопку установки
     });
 
     installBtn.onclick = async () => {
       if (!deferredPrompt) return;
       deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log('📲 Установка PWA:', outcome);
       deferredPrompt = null;
       installBtn.style.display = 'none';
     };
+
+    // Если приложение уже установлено — скрываем кнопку
+    window.addEventListener('appinstalled', () => {
+      installBtn.style.display = 'none';
+      deferredPrompt = null;
+      console.log('✅ PWA успешно установлено');
+    });
   </script>
 </body>
 </html>
