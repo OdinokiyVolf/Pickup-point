@@ -1,14 +1,13 @@
-/* Переменные для удобной настройки цветов */
+/* Переменные и базовые настройки */
 :root {
-  --primary: #4a7c59;          /* Темно-зеленый (со скриншота) */
-  --primary-hover: #3d664a;    /* Цвет при наведении */
-  --bg-color: #e9ede4;         /* Фоновый цвет страницы */
-  --card-bg: #ffffff;          /* Цвет карточки */
-  --text-main: #4a7c59;        /* Цвет заголовка */
-  --text-muted: #666666;       /* Цвет подзаголовка */
+  --primary: #4a7c59;
+  --primary-hover: #3d664a;
+  --bg-color: #e9ede4;
+  --card-bg: #ffffff;
+  --text-main: #4a7c59;
+  --text-muted: #666666;
 }
 
-/* Обнуление отступов и базовая настройка шрифта */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -25,13 +24,12 @@ body {
   padding: 20px;
 }
 
-/* Контейнер для ограничения ширины на ПК */
+/* Контейнер и карточка */
 .main-container {
   width: 100%;
   max-width: 450px;
 }
 
-/* Стили основной карточки */
 .card {
   background: var(--card-bg);
   padding: 40px 30px;
@@ -43,7 +41,6 @@ body {
   align-items: center;
 }
 
-/* Логотип ПВЗ */
 .avatar {
   width: 120px;
   height: 120px;
@@ -53,7 +50,6 @@ body {
   background-color: white;
 }
 
-/* Заголовок */
 .title {
   color: var(--text-main);
   font-size: 24px;
@@ -61,7 +57,6 @@ body {
   font-weight: 500;
 }
 
-/* Подзаголовок о качестве скриншотов */
 .subtitle {
   color: var(--text-muted);
   font-size: 14px;
@@ -70,7 +65,7 @@ body {
   max-width: 290px;
 }
 
-/* Группа кнопок-ссылок */
+/* Кнопки-ссылки */
 .button-group {
   width: 100%;
   display: flex;
@@ -78,11 +73,10 @@ body {
   gap: 15px;
 }
 
-/* Стилизация ссылок под кнопки */
 .menu-button {
   background-color: var(--primary);
   color: white;
-  text-decoration: none; /* Убираем подчеркивание */
+  text-decoration: none;
   display: block;
   padding: 15px 20px;
   border-radius: 12px;
@@ -92,12 +86,60 @@ body {
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-/* Эффекты при наведении и нажатии */
-.menu-button:hover {
-  background-color: var(--primary-hover);
+.menu-button:hover { background-color: var(--primary-hover); }
+.menu-button:active { transform: translateY(1px); }
+
+/* СТИЛИ PWA (ПЕРЕНЕСЕНЫ ИЗ HTML) */
+#install-banner {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  white-space: nowrap;
+  animation: slideUp 0.3s ease;
 }
 
-.menu-button:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+#install-banner.visible { display: flex; align-items: center; gap: 10px; }
+
+#ios-hint {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0; right: 0;
+  z-index: 1000;
+  background: #fff;
+  border-top: 2px solid var(--primary);
+  padding: 18px 20px 28px;
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: center;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+}
+
+#ios-hint.visible { display: block; }
+#ios-hint strong { color: var(--primary); }
+
+#ios-hint-close {
+  position: absolute;
+  top: 10px; right: 16px;
+  background: none; border: none;
+  font-size: 22px; cursor: pointer; color: #666;
+}
+
+#ios-hint .arrow { font-size: 26px; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
