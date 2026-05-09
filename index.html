@@ -1,14 +1,19 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>ПВЗ на Тищенко, 2</title>
   <meta name="description" content="Пункт выдачи заказов на Тищенко, 2. Озон, Wildberries.">
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="logo.png" type="image/png">
+
+  <!-- Apple / iOS: без этих тегов Safari не предложит «Добавить на экран» -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="ПВЗ Тищенко">
+  <link rel="apple-touch-icon" href="logo.png">
 
   <!-- Яндекс.Метрика -->
   <script>
@@ -22,7 +27,8 @@
   <noscript><div><img src="https://mc.yandex.ru/watch/109024144" style="position:absolute;left:-9999px;" alt=""></div></noscript>
 </head>
 <body>
-  <!-- Окно загрузки -->
+
+  <!-- ЭКРАН ЗАГРУЗКИ (РАБОТАЕТ НА ANDROID) -->
   <div id="loading-screen">
     <div class="loader-container">
       <div class="loader"></div>
@@ -31,7 +37,8 @@
     </div>
   </div>
 
-  <div class="main-container" id="main-content">
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
+  <div class="main-container" id="main-content" style="opacity:0;">
     <div class="card">
       <div class="avatar-wrapper">
         <img src="logo.png" alt="Логотип ПВЗ" class="avatar">
@@ -59,7 +66,21 @@
     </div>
   </div>
 
-  <!-- Декоративные элементы -->
+  <!-- МОДАЛЬНОЕ ОКНО ДЛЯ IOS (ИНСТРУКЦИЯ) -->
+  <div id="ios-modal-overlay">
+    <div id="ios-hint">
+      <button id="ios-hint-close" aria-label="Закрыть">✕</button>
+      <h3>📱 Установка на iPhone / iPad</h3>
+      <p>Чтобы сохранить этот сайт как приложение:</p>
+      <div class="ios-steps">
+        <p>1️⃣ Нажмите иконку <strong>«Поделиться»</strong> <span class="icon">⎔</span></p>
+        <p>2️⃣ Прокрутите вниз и выберите <strong>«На экран "Домой"»</strong> <span class="icon">⬚</span></p>
+      </div>
+      <div class="arrow-down">⬆️</div>
+    </div>
+  </div>
+
+  <!-- Декоративные элементы фона -->
   <div class="bg-decoration">
     <div class="circle circle-1"></div>
     <div class="circle circle-2"></div>
@@ -67,25 +88,32 @@
   </div>
 
   <script>
-    // Окно загрузки
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const loadingScreen = document.getElementById('loading-screen');
-        loadingScreen.classList.add('fade-out');
-        setTimeout(() => {
-          loadingScreen.style.display = 'none';
-        }, 500);
+    // === 1. Окно загрузки (универсальное для Android и iOS) ===
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        var loadingScreen = document.getElementById('loading-screen');
+        var mainContent = document.getElementById('main-content');
+        
+        if (loadingScreen) {
+          loadingScreen.style.opacity = '0';
+          loadingScreen.style.visibility = 'hidden';
+          loadingScreen.style.transition = 'opacity 0.5s ease, visibility 0.5s ease';
+        }
+        if (mainContent) {
+          mainContent.style.opacity = '1';
+          mainContent.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+        }
       }, 1500);
     });
 
-    // Service Worker
+    // === 2. Service Worker ===
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
         .then(() => console.log('✅ SW зарегистрирован'))
         .catch(err => console.error('❌ Ошибка SW:', err));
     }
 
-    // ========== Логика для Android (Chrome / Edge) ==========
+    // === 3. Логика установки для Android (Chrome / Edge) ===
     let deferredPrompt;
     const installBtn = document.getElementById('install-banner');
 
@@ -104,23 +132,43 @@
       installBtn.style.display = 'none';
     };
 
-    // Если приложение уже установлено — скрываем кнопку
     window.addEventListener('appinstalled', () => {
       installBtn.style.display = 'none';
       deferredPrompt = null;
-      console.log('✅ PWA успешно установлено');
+      console.log('✅ PWA установлено');
     });
 
-    // Добавляем анимацию при появлении карточек
-    document.addEventListener('DOMContentLoaded', () => {
-      const card = document.querySelector('.card');
-      if (card) {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        setTimeout(() => {
-          card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-          card.style.opacity = '1';
-          card.style.transform = 'translateY(0)';
+    // === 4. Логика для iOS Safari (показываем модальное окно) ===
+    const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isInStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+    if (isIos && !isInStandalone) {
+      setTimeout(() => {
+        const overlay = document.getElementById('ios-modal-overlay');
+        if (overlay) overlay.classList.add('visible');
+      }, 2000);
+    }
+
+    // Закрытие модального окна iOS
+    const closeBtn = document.getElementById('ios-hint-close');
+    const overlay = document.getElementById('ios-modal-overlay');
+    if (closeBtn) {
+      closeBtn.onclick = () => {
+        if (overlay) overlay.classList.remove('visible');
+      };
+    }
+    if (overlay) {
+      overlay.onclick = (e) => {
+        if (e.target === overlay) overlay.classList.remove('visible');
+      };
+    }
+
+    // Плавное появление карточки (если не сработало из загрузки)
+    document.addEventListener('DOMContentLoaded', function() {
+      const mainContent = document.getElementById('main-content');
+      if (mainContent && mainContent.style.opacity !== '1') {
+        setTimeout(function() {
+          mainContent.style.opacity = '1';
         }, 100);
       }
     });
