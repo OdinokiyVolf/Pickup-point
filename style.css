@@ -102,7 +102,7 @@ body {
   display: none;
 }
 
-/* ===== ЭКРАН ЗАГРУЗКИ (ПОЛНОСТЬЮ ПО ЦЕНТРУ) ===== */
+/* ===== ЭКРАН ЗАГРУЗКИ ===== */
 #loading-screen {
   position: fixed;
   top: 0;
@@ -152,7 +152,7 @@ body {
   opacity: 0.85;
 }
 
-/* МОДАЛЬНОЕ ОКНО ДЛЯ IOS */
+/* ===== МОДАЛЬНОЕ ОКНО ДЛЯ IOS ===== */
 #ios-modal-overlay {
   display: none;
   position: fixed;
@@ -192,6 +192,11 @@ body {
   font-size: 22px;
   cursor: pointer;
   color: #888;
+  transition: color 0.2s;
+}
+
+#ios-hint-close:hover {
+  color: #333;
 }
 
 .ios-steps {
@@ -199,6 +204,49 @@ body {
   padding: 20px;
   border-radius: 20px;
   margin: 15px 0;
+}
+
+.ios-steps p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+
+.ios-steps p:last-child {
+  margin-bottom: 0;
+}
+
+.ios-steps strong {
+  color: var(--primary);
+  background: #e8f0eb;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+/* ===== СТИЛИ ДЛЯ КАРТИНОК В ИНСТРУКЦИИ IOS ===== */
+.ios-icon-img {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+  margin-left: 4px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f0f0f0;
+  padding: 4px;
+  object-fit: contain;
+}
+
+/* Альтернативный декоративный вариант (если используете вместе с эмодзи) */
+.ios-icon-img-deco {
+  width: 24px;
+  height: 24px;
+  margin-left: 6px;
+  opacity: 0.8;
+  vertical-align: middle;
 }
 
 .arrow-down {
@@ -212,7 +260,7 @@ body {
   50% { transform: translateY(5px); }
 }
 
-/* ДЕКОРАТИВНЫЕ КРУГИ */
+/* ===== ДЕКОРАТИВНЫЕ КРУГИ НА ФОНЕ ===== */
 .bg-decoration {
   position: fixed;
   top: 0;
@@ -259,10 +307,59 @@ body {
   50% { transform: translateY(-20px) translateX(10px); }
 }
 
-/* АДАПТАЦИЯ */
+/* ===== АДАПТАЦИЯ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ ===== */
 @media (max-width: 500px) {
-  .card { padding: 30px 20px; }
-  .menu-button { max-width: 100%; }
-  .loader-text { font-size: 18px; }
-  .loader-subtext { font-size: 14px; }
+  .card {
+    padding: 30px 20px;
+  }
+  
+  .menu-button {
+    max-width: 100%;
+  }
+  
+  .loader-text {
+    font-size: 18px;
+  }
+  
+  .loader-subtext {
+    font-size: 14px;
+  }
+  
+  .ios-icon-img {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .ios-steps p {
+    font-size: 14px;
+    flex-wrap: wrap;
+  }
+}
+
+/* ===== ДОПОЛНИТЕЛЬНЫЕ УЛУЧШЕНИЯ ===== */
+
+/* Плавное появление карточек */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Улучшенный ховер для кнопок */
+.menu-button:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(74, 124, 89, 0.3);
+}
+
+/* Анимация для логотипа */
+.avatar {
+  transition: transform 0.3s ease;
+}
+
+.avatar:hover {
+  transform: scale(1.05) rotate(3deg);
 }
