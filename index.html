@@ -26,6 +26,7 @@
 </head>
 <body>
 
+<!-- ЭКРАН ЗАГРУЗКИ -->
 <div id="loading-screen">
   <div class="loader-container">
     <div class="loader"></div>
@@ -34,6 +35,7 @@
   </div>
 </div>
 
+<!-- ОСНОВНОЙ КОНТЕНТ -->
 <div class="main-container" id="main-content">
   <div class="card">
     <div class="avatar-wrapper">
@@ -62,6 +64,7 @@
   </div>
 </div>
 
+<!-- МОДАЛЬНОЕ ОКНО ДЛЯ IOS -->
 <div id="ios-modal-overlay">
   <div id="ios-hint">
     <button id="ios-hint-close" aria-label="Закрыть">✕</button>
@@ -75,6 +78,7 @@
   </div>
 </div>
 
+<!-- ДЕКОРАТИВНЫЕ ЭЛЕМЕНТЫ -->
 <div class="bg-decoration">
   <div class="circle circle-1"></div>
   <div class="circle circle-2"></div>
@@ -83,7 +87,7 @@
 
 <script>
   (function() {
-    // === 1. Надёжное скрытие загрузочного экрана ===
+    // === 1. ЗАГРУЗОЧНЫЙ ЭКРАН ===
     var loadingScreen = document.getElementById('loading-screen');
     var mainContent = document.getElementById('main-content');
     
@@ -108,14 +112,14 @@
       });
     }
 
-    // === 2. Service Worker ===
+    // === 2. SERVICE WORKER ===
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
         .then(function(reg) { console.log('✅ SW зарегистрирован', reg); })
         .catch(function(err) { console.error('❌ Ошибка SW:', err); });
     }
 
-    // === 3. Установка на Android ===
+    // === 3. УСТАНОВКА НА ANDROID ===
     var deferredPrompt = null;
     var installBtn = document.getElementById('install-banner');
 
@@ -142,7 +146,7 @@
       console.log('✅ PWA установлено');
     });
 
-    // === 4. iOS инструкция ===
+    // === 4. IOS ИНСТРУКЦИЯ ===
     var isIos = /iPhone|iPad|iPod/i.test(navigator.userAgent);
     var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
@@ -166,7 +170,7 @@
       });
     }
 
-    // === 5. Принудительное отображение контента на всякий случай ===
+    // === 5. ПРИНУДИТЕЛЬНОЕ ОТОБРАЖЕНИЕ ===
     setTimeout(function() {
       if (mainContent && mainContent.style.opacity !== '1') {
         mainContent.style.opacity = '1';
