@@ -41,6 +41,7 @@ body {
   border-radius: 40px;
   text-align: center;
   box-shadow: var(--shadow-lg);
+  margin-bottom: 20px;
 }
 
 .avatar {
@@ -100,6 +101,76 @@ body {
 
 #install-banner {
   display: none;
+}
+
+/* ===== ФУТЕР С ПОДПИСЬЮ ===== */
+.footer-signature {
+  margin-top: 20px;
+  padding: 15px 20px;
+  text-align: center;
+  animation: fadeInUp 0.8s ease-out 0.5s both;
+}
+
+.signature-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(4px);
+  padding: 8px 20px;
+  border-radius: 50px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.signature-content:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(74, 124, 89, 0.15);
+}
+
+.signature-icon {
+  font-size: 18px;
+  display: inline-block;
+  animation: wave 2s ease-in-out infinite;
+}
+
+.signature-text {
+  font-family: 'Playfair Display', 'Poppins', cursive;
+  font-size: 14px;
+  font-weight: 500;
+  background: linear-gradient(135deg, #4a7c59 0%, #6b9b7a 50%, #3d664a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 0.5px;
+  font-style: italic;
+}
+
+/* Анимации для футера */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wave {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
 }
 
 /* ===== ЭКРАН ЗАГРУЗКИ ===== */
@@ -227,7 +298,6 @@ body {
   font-size: 14px;
 }
 
-/* ===== СТИЛИ ДЛЯ КАРТИНОК В ИНСТРУКЦИИ IOS ===== */
 .ios-icon-img {
   width: 32px;
   height: 32px;
@@ -238,15 +308,6 @@ body {
   background-color: #f0f0f0;
   padding: 4px;
   object-fit: contain;
-}
-
-/* Альтернативный декоративный вариант (если используете вместе с эмодзи) */
-.ios-icon-img-deco {
-  width: 24px;
-  height: 24px;
-  margin-left: 6px;
-  opacity: 0.8;
-  vertical-align: middle;
 }
 
 .arrow-down {
@@ -260,7 +321,7 @@ body {
   50% { transform: translateY(5px); }
 }
 
-/* ===== ДЕКОРАТИВНЫЕ КРУГИ НА ФОНЕ ===== */
+/* ===== ДЕКОРАТИВНЫЕ КРУГИ ===== */
 .bg-decoration {
   position: fixed;
   top: 0;
@@ -307,7 +368,7 @@ body {
   50% { transform: translateY(-20px) translateX(10px); }
 }
 
-/* ===== АДАПТАЦИЯ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ ===== */
+/* ===== АДАПТАЦИЯ ===== */
 @media (max-width: 500px) {
   .card {
     padding: 30px 20px;
@@ -334,11 +395,17 @@ body {
     font-size: 14px;
     flex-wrap: wrap;
   }
+  
+  .signature-text {
+    font-size: 12px;
+  }
+  
+  .signature-icon {
+    font-size: 14px;
+  }
 }
 
-/* ===== ДОПОЛНИТЕЛЬНЫЕ УЛУЧШЕНИЯ ===== */
-
-/* Плавное появление карточек */
+/* Улучшенные эффекты */
 .card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -348,14 +415,12 @@ body {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
-/* Улучшенный ховер для кнопок */
 .menu-button:hover {
   background: var(--primary-hover);
   transform: translateY(-2px);
   box-shadow: 0 6px 14px rgba(74, 124, 89, 0.3);
 }
 
-/* Анимация для логотипа */
 .avatar {
   transition: transform 0.3s ease;
 }
